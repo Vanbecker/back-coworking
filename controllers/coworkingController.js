@@ -46,7 +46,8 @@ exports.createCoworking = (req, res) => {
             price: newCoworking.price,
             superficy: newCoworking.superficy,
             capacity: newCoworking.capacity,
-            address: newCoworking.address
+            address: newCoworking.address,
+            UserId: 1
         })
         .then((result) => {
             res.status(201).json({ message: 'Un coworking a bien été ajouté.', data: result })

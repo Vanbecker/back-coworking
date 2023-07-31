@@ -8,7 +8,9 @@ const multer = require('../middleware/multer-config');
 router
     .route('/')
     .get(coworkingController.findAllCoworkings)
-    .post(authController.protect, authController.restrictTo("editor"), coworkingController.createCoworking)
+    .post(
+        // authController.protect, authController.restrictTo("editor"), 
+        coworkingController.createCoworking)
 
 router
     .route('/withImg')
