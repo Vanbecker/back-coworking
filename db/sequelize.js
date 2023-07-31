@@ -10,7 +10,7 @@ const sequelize = new Sequelize('coworking_07_2023', 'root', 'root', {
 
 sequelize.authenticate()
     .then(() => console.log('La connexion à la base de données a bien été établie.'))
-    .catch(error => console.log(`Ìmpossible de se connecter à la base de données ${error}`))
+    .catch(error => console.log(`Impossible de se connecter à la base de données ${error}`))
 
 const defineCoworkingModel = require('../models/coworkingModelDefinition')
 const defineUserModel = require('../models/userModelDefinition')
