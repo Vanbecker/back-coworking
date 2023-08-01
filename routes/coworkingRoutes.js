@@ -9,7 +9,7 @@ router
     .route('/')
     .get(coworkingController.findAllCoworkings)
     .post(
-        // authController.protect, authController.restrictTo("editor"), 
+        authController.protect, authController.restrictTo("editor"),
         coworkingController.createCoworking)
 
 router
@@ -31,10 +31,13 @@ router
 router
     .route('/:id')
     .get(coworkingController.findCoworkingByPk)
-    .put(authController.protect, authController.restrictToOwnUser(CoworkingModel), coworkingController.updateCoworking)
+    .put(
+        authController.protect,
+        authController.restrictToOwnUser(CoworkingModel),
+        coworkingController.updateCoworking)
     .delete(
-        // authController.protect
-        // , authController.restrictToOwnUser(CoworkingModel),
+        authController.protect
+        , authController.restrictToOwnUser(CoworkingModel),
         coworkingController.deleteCoworking)
 
 module.exports = router
