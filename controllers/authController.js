@@ -37,7 +37,11 @@ exports.login = (req, res) => {
                 .then(isValid => {
                     if (isValid) {
                         const token = jwt.sign({
-                            data: req.body.username
+                            data: {
+                                username: req.body.username,
+                                id: user.id,
+                                role: user.RoleId
+                            }
                         }, SECRET_KEY, { expiresIn: 60 * 60 });
 
                         res.json({ message: 'login réussi', data: token })
@@ -50,6 +54,7 @@ exports.login = (req, res) => {
             return res.status(500).json({ message: error.message })
         })
 }
+
 
 exports.protect = (req, res, next) => {
     if (!req.headers.authorization) {
@@ -90,13 +95,17 @@ exports.restrictTo = (roleParam) => {
 
 exports.restrictToOwnUser = (modelParam) => {
     return (req, res, next) => {
+
+        const token = req.headers.authorization.split(' ')[1]
+        const decoded = jwt.verify(token, SECRET_KEY)
+
         modelParam.findByPk(req.params.id)
             .then(result => {
                 if (!result) {
                     const message = `La ressource n°${req.params.id} n'existe pas`
                     return res.status(404).json({ message })
                 }
-                return UserModel.findOne({ where: { username: req.username } })
+                return UserModel.findOne({ where: { username: decoded.data.username } })
                     .then(user => {
                         if (result.UserId !== user.id) {
                             const message = "Tu n'es pas le créateur de cette ressource";
